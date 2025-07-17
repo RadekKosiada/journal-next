@@ -10,6 +10,7 @@ export default function Registration() {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const response = await axios.post('/api/register', { email, password });
+        console.log('response', response);
     };
 
     return (
