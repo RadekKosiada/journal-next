@@ -1,5 +1,6 @@
 "use server";
 
+import { getCollection } from "@/lib/db";
 import { RegisterFormSchema } from "@/lib/rules";
 import { z } from "zod";
 
@@ -37,5 +38,6 @@ export async function register(state: any, formData: FormData ) {
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
 
-    console.log(email, password, confirmPassword);
+    const userCollection = await getCollection('users');
+    console.log(userCollection);
 }
