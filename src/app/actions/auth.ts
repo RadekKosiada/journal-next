@@ -15,8 +15,7 @@ export type State = {
     message?: string | null;
 };
 
-
-export async function register(state: State, formData: FormData ) {
+export async function register(state: any, formData: FormData ) {
     const email = formData.get("email");
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
