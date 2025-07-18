@@ -38,7 +38,8 @@ export default function Registration() {
                         minLength={8} required
                     ></input>
                 </div>
-                <input type="submit" value="Register" />
+                <input disabled={isPending} type="submit" 
+                    value={isPending ? "Loading..." : "Register"} />
             </form>
         </>
     )
