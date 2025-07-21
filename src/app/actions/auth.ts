@@ -2,10 +2,10 @@
 
 import { getCollection } from "@/lib/db";
 import { RegisterFormSchema } from "@/lib/rules";
-import { z } from "zod";
+import { createSession } from "@/lib/sessions";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
-import { createSession } from "@/lib/sessions";
+import { z } from "zod";
 
 export type State = {
     errors?: {
@@ -71,8 +71,7 @@ export async function register(state: any, formData: FormData ) {
     const results = await userCollection?.insertOne({ email, password: hashedPassword });
 
     // Create a session 
-    console.log(userCollection);
-    await createSession(results.insertedId)
+    await createSession(results.insertedId.toString());
 
     // redirect
     redirect("/dashboard");
