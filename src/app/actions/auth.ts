@@ -4,6 +4,7 @@ import { getCollection } from "@/lib/db";
 import { RegisterFormSchema } from "@/lib/rules";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
 
 export type State = {
     errors?: {
@@ -70,4 +71,7 @@ export async function register(state: any, formData: FormData ) {
 
     // Create a session 
     console.log(userCollection);
+
+    // redirect
+    redirect("/dashboard");
 }
