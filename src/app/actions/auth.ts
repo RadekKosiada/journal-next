@@ -5,6 +5,7 @@ import { RegisterFormSchema } from "@/lib/rules";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
+import { createSession } from "@/lib/sessions";
 
 export type State = {
     errors?: {
@@ -71,6 +72,7 @@ export async function register(state: any, formData: FormData ) {
 
     // Create a session 
     console.log(userCollection);
+    await createSession(results.insertedId)
 
     // redirect
     redirect("/dashboard");
