@@ -3,6 +3,7 @@
 import { getCollection } from "@/lib/db";
 import { RegisterFormSchema } from "@/lib/rules";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 
 export type State = {
     errors?: {
@@ -60,8 +61,13 @@ export async function register(state: any, formData: FormData ) {
         }
     }
 
-    // Save in DB
-    const results = await userCollection?.insertOne({ email, password });
+    // Hash the password, 10 represents how complicated the hashed PW should be
+    const hashedPassword = await bcrypt.hash(password, 10)
 
+
+    // Save in DB
+    const results = await userCollection?.insertOne({ email, password: hashedPassword });
+
+    // Create a session 
     console.log(userCollection);
 }
