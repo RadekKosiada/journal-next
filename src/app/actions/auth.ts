@@ -21,12 +21,14 @@ export type State = {
 
 export async function register(state: any, formData: FormData ) {
 
+    // validate form fields
     const validatedFields = RegisterFormSchema.safeParse({
         email: formData.get("email"),
         password: formData.get("password"),
         confirmPassword: formData.get("confirmPassword")
     });
     
+    // if form fields invalid returns an error
     if (!validatedFields.success) {
         return {
             errors: z.flattenError(validatedFields.error).fieldErrors,
@@ -34,10 +36,32 @@ export async function register(state: any, formData: FormData ) {
         }
     }
 
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const confirmPassword = formData.get("confirmPassword");
+    // const email = formData.get("email");
+    // const password = formData.get("password");
+    // const confirmPassword = formData.get("confirmPassword");
+
+    // if validated, extracts form fields
+    const { email, password } = validatedFields.data;
 
     const userCollection = await getCollection('users');
+    
+    // check if userCollection exists
+    if(!userCollection) { 
+        return {
+            errors: { email: "Server error! "} 
+        }
+    }
+
+    // check if user already exists
+    const exisitingUser = await userCollection.findOne({email});
+    if (exisitingUser) {
+        return {
+            errors: { email: "E-mail already exist in our database!"}
+        }
+    }
+
+    // Save in DB
+    const results = await userCollection?.insertOne({ email, password });
+
     console.log(userCollection);
 }
